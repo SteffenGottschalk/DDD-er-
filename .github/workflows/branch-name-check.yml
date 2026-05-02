@@ -1,0 +1,26 @@
+name: Branch name check
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate branch name
+        env:
+          BRANCH: ${{ github.head_ref }}
+        run: |
+          echo "Head branch: $BRANCH"
+          if ! [[ "$BRANCH" =~ ^(feature|bugfix|chore|hotfix)/[0-9]+-[a-z0-9-]+$ ]]; then
+            echo "::error::Branch name '$BRANCH' verletzt das Schema."
+            echo "Erwartet: feature|bugfix|chore|hotfix/<issue-nr>-<kebab-slug>"
+            echo "Beispiele: feature/42-aggregate-pattern, bugfix/17-typo-readme, chore/8-bump-deps"
+            exit 1
+          fi
+          echo "Branch name OK."

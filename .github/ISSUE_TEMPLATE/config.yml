@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Frage / Diskussion
+    url: https://github.com/SteffenGottschalk/DDD-er-/discussions
+    about: Für offene Fragen oder Diskussionen bitte Discussions nutzen statt Issue.

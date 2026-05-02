@@ -1,0 +1,62 @@
+name: Bug
+description: Fehler melden.
+title: "[Bug] "
+labels:
+  - "type:bug"
+  - "status:planning"
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Zusammenfassung
+      description: Kurz und präzise — was funktioniert nicht?
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduktion
+      description: Schritt-für-Schritt-Anleitung, mit der sich der Bug zuverlässig auslösen lässt.
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Erwartetes Verhalten
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Tatsächliches Verhalten
+      description: Inkl. Logs, Screenshots, Stacktraces falls vorhanden.
+    validations:
+      required: true
+
+  - type: input
+    id: env
+    attributes:
+      label: Umgebung
+      description: 'z.B. "lokal, macOS 15.3, Branch develop @ a3cc886"'
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - concept
+        - docs
+        - examples
+        - infra
+        - unklar
+    validations:
+      required: true

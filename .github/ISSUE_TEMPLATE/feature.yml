@@ -1,0 +1,85 @@
+name: Feature
+description: Neue Funktionalität planen und vor der Umsetzung abstimmen.
+title: "[Feature] "
+labels:
+  - "type:feature"
+  - "status:planning"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Dieses Issue ist die **Planungsphase**. Implementierung erst, wenn der Plan steht und das Label auf `status:ready` gesetzt wurde.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / Motivation
+      description: Welches Problem löst dieses Feature? Warum jetzt?
+      placeholder: "Aktuell fehlt …, weil …"
+    validations:
+      required: true
+
+  - type: textarea
+    id: goal
+    attributes:
+      label: Ziel / Outcome
+      description: Wie sieht der Erfolg aus? Was kann der Nutzer danach, was vorher nicht ging?
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: Was ist drin? Was ist explizit **nicht** drin (Out of Scope)?
+      value: |
+        **In Scope**
+        -
+
+        **Out of Scope**
+        -
+    validations:
+      required: true
+
+  - type: textarea
+    id: plan
+    attributes:
+      label: Umsetzungsplan
+      description: Schritte, betroffene Komponenten, neue/geänderte Dateien.
+      value: |
+        - [ ] Schritt 1
+        - [ ] Schritt 2
+        - [ ] Schritt 3
+    validations:
+      required: true
+
+  - type: textarea
+    id: risks
+    attributes:
+      label: Risiken / Offene Fragen
+      description: Was könnte schiefgehen? Welche Annahmen müssen vor Start geklärt werden?
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Akzeptanzkriterien
+      description: Woran erkennen wir, dass das Feature fertig ist?
+      value: |
+        - [ ]
+        - [ ]
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area (zusätzlich Label setzen)
+      description: Welche Komponente ist primär betroffen?
+      options:
+        - concept
+        - docs
+        - examples
+        - infra
+        - mehrere
+    validations:
+      required: true

@@ -1,0 +1,56 @@
+name: Chore / Refactor
+description: Wartung, Aufräumen, Refactor, Build, Dependencies.
+title: "[Chore] "
+labels:
+  - "type:chore"
+  - "status:planning"
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: Was soll getan werden?
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: Warum jetzt?
+      description: Welcher Trigger / welcher Schmerz? Was wird leichter, sobald das erledigt ist?
+    validations:
+      required: true
+
+  - type: textarea
+    id: plan
+    attributes:
+      label: Plan
+      value: |
+        - [ ]
+        - [ ]
+    validations:
+      required: true
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Art
+      options:
+        - refactor
+        - chore (deps, build, infra)
+        - docs
+        - test
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - concept
+        - docs
+        - examples
+        - infra
+        - mehrere
+    validations:
+      required: true
