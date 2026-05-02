@@ -16,8 +16,8 @@ Closes #<!-- Issue-Nummer -->
 
 ## Checkliste
 - [ ] Issue verlinkt (`Closes #…`)
-- [ ] Branch folgt Schema `feature/<nr>-slug` / `bugfix/<nr>-slug` / `chore/<nr>-slug` / `hotfix/<nr>-slug`
-- [ ] Branch zielt auf `develop` (Hotfix: auf `main`)
+- [ ] Branch folgt Schema `feature/<nr>-slug` oder `bugfix/<nr>-slug`
+- [ ] Branch zielt auf `develop` (kritischer Fix auf `main`: bugfix-Branch direkt von `main`, danach Backmerge)
 - [ ] Akzeptanzkriterien aus dem Issue erfüllt
 - [ ] Keine Out-of-Scope-Änderungen mit reingerutscht
 - [ ] Doku/README angepasst (falls relevant)

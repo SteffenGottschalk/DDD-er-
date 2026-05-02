@@ -2,8 +2,8 @@ name: Bug
 description: Fehler melden.
 title: "[Bug] "
 labels:
-  - "type:bug"
-  - "status:planning"
+  - "Bug | type"
+  - "Planning | status"
 body:
   - type: textarea
     id: summary
@@ -51,12 +51,17 @@ body:
   - type: dropdown
     id: area
     attributes:
-      label: Area
+      label: Area (zusätzlich passendes "Area | area"-Label am Issue setzen)
       options:
-        - concept
-        - docs
-        - examples
-        - infra
+        - Backend
+        - Frontend
+        - API
+        - Auth
+        - Realtime
+        - Storage
+        - Infra
+        - UX
+        - Testing
         - unklar
     validations:
       required: true

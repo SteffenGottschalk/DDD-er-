@@ -2,8 +2,8 @@ name: Chore / Refactor
 description: Wartung, Aufräumen, Refactor, Build, Dependencies.
 title: "[Chore] "
 labels:
-  - "type:chore"
-  - "status:planning"
+  - "Chore | type"
+  - "Planning | status"
 body:
   - type: textarea
     id: what
@@ -33,24 +33,29 @@ body:
   - type: dropdown
     id: type
     attributes:
-      label: Art
+      label: Art (zusätzlich passendes "type"-Label setzen, falls abweichend)
       options:
-        - refactor
-        - chore (deps, build, infra)
-        - docs
-        - test
+        - Chore (deps, build, infra)
+        - Refactor
+        - Docs
+        - Test
     validations:
       required: true
 
   - type: dropdown
     id: area
     attributes:
-      label: Area
+      label: Area (zusätzlich passendes "Area | area"-Label am Issue setzen)
       options:
-        - concept
-        - docs
-        - examples
-        - infra
+        - Backend
+        - Frontend
+        - API
+        - Auth
+        - Realtime
+        - Storage
+        - Infra
+        - UX
+        - Testing
         - mehrere
     validations:
       required: true

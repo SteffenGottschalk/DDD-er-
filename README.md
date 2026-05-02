@@ -12,8 +12,8 @@ Skelett. Keine Code-Artefakte, kein Build-Stack. Inhalte werden über Issues gep
 Workflow strikt Issue-first:
 
 1. Idee → `gh issue create --template feature.yml` (oder `bug.yml` / `chore.yml`).
-2. Plan iterieren, `status:ready` setzen, Size pflegen im Project.
-3. Branch via `gh issue develop <nr> --base develop --name feature/<nr>-slug --checkout`.
+2. Plan iterieren, Label auf `Ready | status` setzen, Size im Project pflegen.
+3. Branch via `gh issue develop <nr> --base develop --name feature/<nr>-slug --checkout` (Bugs: `bugfix/<nr>-slug`). Andere Präfixe sind nicht erlaubt.
 4. PR `--base develop` mit `Closes #<nr>` öffnen.
 5. Release: `develop` → `main`.
 

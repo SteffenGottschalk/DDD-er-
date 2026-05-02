@@ -17,10 +17,10 @@ jobs:
           BRANCH: ${{ github.head_ref }}
         run: |
           echo "Head branch: $BRANCH"
-          if ! [[ "$BRANCH" =~ ^(feature|bugfix|chore|hotfix)/[0-9]+-[a-z0-9-]+$ ]]; then
+          if ! [[ "$BRANCH" =~ ^(feature|bugfix)/[0-9]+-[a-z0-9-]+$ ]]; then
             echo "::error::Branch name '$BRANCH' verletzt das Schema."
-            echo "Erwartet: feature|bugfix|chore|hotfix/<issue-nr>-<kebab-slug>"
-            echo "Beispiele: feature/42-aggregate-pattern, bugfix/17-typo-readme, chore/8-bump-deps"
+            echo "Erwartet: feature|bugfix/<issue-nr>-<kebab-slug>"
+            echo "Beispiele: feature/42-aggregate-pattern, bugfix/17-typo-readme"
             exit 1
           fi
           echo "Branch name OK."

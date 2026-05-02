@@ -2,8 +2,8 @@ name: Feature
 description: Neue Funktionalität planen und vor der Umsetzung abstimmen.
 title: "[Feature] "
 labels:
-  - "type:feature"
-  - "status:planning"
+  - "Feature | type"
+  - "Planning | status"
 body:
   - type: markdown
     attributes:
@@ -73,13 +73,18 @@ body:
   - type: dropdown
     id: area
     attributes:
-      label: Area (zusätzlich Label setzen)
-      description: Welche Komponente ist primär betroffen?
+      label: Area (zusätzlich passendes "Area | area"-Label am Issue setzen)
+      description: Welcher Cross-Cutting-Bereich ist primär betroffen?
       options:
-        - concept
-        - docs
-        - examples
-        - infra
+        - Backend
+        - Frontend
+        - API
+        - Auth
+        - Realtime
+        - Storage
+        - Infra
+        - UX
+        - Testing
         - mehrere
     validations:
       required: true

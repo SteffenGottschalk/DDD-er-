@@ -41,24 +41,27 @@ Direkt nach dem Anlegen pflegen:
 
 ## 2. Labels
 
-| Präfix      | Werte                                                              |
-| ----------- | ------------------------------------------------------------------ |
-| `type:`     | `feature`, `bug`, `refactor`, `chore`, `docs`, `test`              |
-| `area:`     | `concept`, `docs`, `examples`, `infra`, `mehrere`                  |
-| `priority:` | `high`, `medium`, `low` (optional)                                 |
-| `status:`   | `planning`, `ready`, `in-progress`, `blocked`, `review`            |
-| (sonstige)  | `epic` — größeres Vorhaben mit Sub-Issues                          |
+Format: `<Name> | <Kategorie>`. Repo-übergreifend identisch, gepflegt via `_foundation/apply-labels.sh`.
+
+| Kategorie  | Werte                                                                                                                          |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `type`     | `Bug`, `Feature`, `Refactor`, `Chore`, `Docs`, `Test`                                                                          |
+| `status`   | `Planning`, `Ready`, `In Progress`, `Review`, `Blocked`                                                                        |
+| `priority` | `High`, `Medium`, `Low` (optional)                                                                                             |
+| `area`     | `Backend`, `Frontend`, `API`, `Auth`, `Realtime`, `Storage`, `Infra`, `UX`, `Testing`                                          |
+| `app`      | repo-spezifisch (DDD-er- hat aktuell keine)                                                                                    |
+| `special`  | `Epic`                                                                                                                         |
 
 Lifecycle:
 
 ```
-planning → ready → in-progress → review → (closed)
-                                  ↑
-                              blocked (jederzeit)
+Planning → Ready → In Progress → Review → (closed)
+                                   ↑
+                               Blocked (jederzeit)
 ```
 
 ```bash
-gh issue edit 42 --add-label "status:ready" --remove-label "status:planning"
+gh issue edit 42 --add-label "Ready | status" --remove-label "Planning | status"
 ```
 
 ## 3. Project-Tracking
@@ -69,29 +72,29 @@ Status-Mapping:
 
 | Trigger                              | Issue-Label              | Project-Status                            |
 | ------------------------------------ | ------------------------ | ----------------------------------------- |
-| Issue angelegt                       | `status:planning`        | `Todo`                                    |
-| Plan steht, Size gesetzt             | `status:ready`           | `Ready for Develompent`                   |
-| Branch via `gh issue develop`        | `status:in-progress`     | `In Progress`                             |
-| PR geöffnet                          | `status:review`          | `In Progress` (+ verlinkter PR)           |
-| Blockiert                            | `status:blocked`         | `Blocked`                                 |
+| Issue angelegt                       | `Planning | status`      | `Todo`                                    |
+| Plan steht, Size gesetzt             | `Ready | status`         | `Ready for Develompent`                   |
+| Branch via `gh issue develop`        | `In Progress | status`   | `In Progress`                             |
+| PR geöffnet                          | `Review | status`        | `In Progress` (+ verlinkter PR)           |
+| Blockiert                            | `Blocked | status`       | `Blocked`                                 |
 | PR gemerged → Issue zu               | (entfernt, Issue closed) | `Done`                                    |
 
 Statuswechsel passieren **bei jedem Übergang** — sonst ist das Board wertlos.
 
 ## 4. Branch anlegen
 
-Erst wenn das Issue auf `status:ready` steht:
+Erst wenn das Issue auf `Ready | status` steht:
 
 ```bash
 gh issue develop 42 --base develop --name feature/42-aggregate-pattern --checkout
-gh issue edit 42 --add-label "status:in-progress" --remove-label "status:ready"
+gh issue edit 42 --add-label "In Progress | status" --remove-label "Ready | status"
 ```
 
 Naming (CI erzwingt das via `branch-name-check.yml`):
-- `feature/<nr>-<slug>` für `type:feature`
-- `bugfix/<nr>-<slug>` für `type:bug`
-- `chore/<nr>-<slug>` für `chore` / `refactor` / `docs` / `test`
-- `hotfix/<nr>-<slug>` für kritische Fixes direkt auf `main`
+- `feature/<nr>-<slug>` — alles, was etwas hinzufügt oder ändert (`Feature`, `Refactor`, `Chore`, `Docs`, `Test`).
+- `bugfix/<nr>-<slug>` — Fehler beheben. Von `develop` für normale Fixes, von `main` für kritische Hotfixes (danach Backmerge nach `develop`).
+
+Andere Präfixe (`chore/`, `hotfix/`, …) sind **nicht erlaubt**.
 
 `<slug>`: kebab-case, ≤ 40 Zeichen.
 
@@ -105,8 +108,8 @@ Naming (CI erzwingt das via `branch-name-check.yml`):
 
 ```bash
 git push -u origin feature/42-aggregate-pattern
-gh pr create --base develop --fill --label "status:review"
-gh issue edit 42 --remove-label "status:in-progress" --add-label "status:review"
+gh pr create --base develop --fill --label "Review | status"
+gh issue edit 42 --remove-label "In Progress | status" --add-label "Review | status"
 ```
 
 Im PR-Body **muss** stehen:
@@ -133,11 +136,11 @@ Nach Merge: ggf. Tag setzen (`git tag -a vX.Y.Z -m "..." && git push --tags`).
 
 ## 9. Hotfixes
 
-Direkt auf `main`:
+Kritische Fixes direkt auf `main` — Branch-Präfix bleibt `bugfix/`:
 
 ```bash
 git checkout main && git pull
-gh issue develop <nr> --base main --name hotfix/<nr>-slug --checkout
+gh issue develop <nr> --base main --name bugfix/<nr>-slug --checkout
 # Fix, PR --base main, Merge
 git checkout develop && git merge main   # Backmerge
 ```
@@ -148,25 +151,25 @@ git checkout develop && git merge main   # Backmerge
 
 ```bash
 # Alle offenen Planungs-Issues
-gh issue list --label "status:planning"
+gh issue list --label "Planning | status"
 
 # Was ist gerade in Arbeit?
-gh issue list --label "status:in-progress"
+gh issue list --label "In Progress | status"
 
 # Ready-to-pick-up
-gh issue list --label "status:ready"
+gh issue list --label "Ready | status"
 
 # Eigene Issues
 gh issue list --assignee "@me"
 
-# Issue von planning → ready hochziehen
-gh issue edit <nr> --add-label "status:ready" --remove-label "status:planning"
+# Issue von Planning → Ready hochziehen
+gh issue edit <nr> --add-label "Ready | status" --remove-label "Planning | status"
 
 # Issue ins Project aufnehmen (falls Workflow mal nicht greift)
 gh project item-add 1 --owner SteffenGottschalk \
   --url https://github.com/SteffenGottschalk/DDD-er-/issues/<nr>
 
-# Branch anlegen und ans Issue verknüpfen
+# Branch anlegen und ans Issue verknüpfen (Bugs: --name bugfix/<nr>-slug)
 gh issue develop <nr> --base develop --name feature/<nr>-slug --checkout
 ```
 
@@ -174,6 +177,6 @@ gh issue develop <nr> --base develop --name feature/<nr>-slug --checkout
 
 Für größere Vorhaben:
 
-1. Epic-Issue mit Label `epic` und einer Checkliste verlinkter Sub-Issues.
+1. Epic-Issue mit Label `Epic | special` und einer Checkliste verlinkter Sub-Issues.
 2. Sub-Issues folgen dem normalen Workflow.
 3. Epic schließt erst, wenn alle Sub-Issues erledigt sind.
