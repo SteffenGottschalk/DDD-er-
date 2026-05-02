@@ -1,0 +1,11 @@
+# Dependabot — DDD-er- (Skelett-Profil)
+# Repo enthält aktuell keinen Sprach-Stack, nur GitHub-Actions-Workflows.
+# Sobald ein package.json / pyproject.toml etc. dazukommt, hier ergänzen.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5

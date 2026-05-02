@@ -1,0 +1,26 @@
+name: Close-linked-issues check
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify PR body links an issue
+        env:
+          BODY: ${{ github.event.pull_request.body }}
+        run: |
+          echo "PR body length: ${#BODY}"
+          if [[ "$BODY" =~ (Closes|Fixes|Resolves)[[:space:]]*\#[0-9]+ ]]; then
+            echo "Linked issue reference found."
+            exit 0
+          fi
+          echo "::error::PR-Body enthält keinen 'Closes #<nr>' / 'Fixes #<nr>' / 'Resolves #<nr>'-Link."
+          echo "Pflicht laut .github/llm/AGENTS.md §6 — bitte Issue verlinken."
+          exit 1
