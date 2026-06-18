@@ -12,7 +12,7 @@ Menschliche Variante: [`CONTRIBUTING.md`](../../CONTRIBUTING.md).
 ```
 Idee → gh issue create  →  Issue im Project (Status: Todo, "Planning | status")
                        ↘   Plan ausarbeiten, Size setzen
-                          → Label "Ready | status" (Project: Ready for Develompent)
+                          → Label "Ready | status" (Project: Ready for Development)
                           → gh issue develop <nr>            (Branch verknüpft)
                           → "In Progress | status" (Project: In Progress)
                           → Commits, push, gh pr create --base develop
