@@ -58,7 +58,7 @@ Statuswechsel:
 gh issue edit <nr> --remove-label "Planning | status" --add-label "Ready | status"
 ```
 
-Das Label-Set ist **repo-übergreifend identisch** (Farben + Namen), gepflegt via `_foundation/apply-labels.sh`.
+Das Label-Set ist **repo-übergreifend identisch** (Farben + Namen), gepflegt mit `apply-labels.sh` im Portfolio-Meta-Repo (Ort siehe dort `AGENTS.md`).
 
 Jedes Issue gehört ins Project [@SteffenGottschalk/projects/1](https://github.com/users/SteffenGottschalk/projects/1) — der `add-to-project.yml`-Workflow fügt neue Issues automatisch ein.
 **Size-Feld** (s/m/l/xl) wird vor `status:ready` in der Project-UI gesetzt.
