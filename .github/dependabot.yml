@@ -5,6 +5,11 @@ version: 2
 updates:
   - package-ecosystem: github-actions
     directory: /
+    # Der Weg dieses Repos geht ueber `develop`; `main` bekommt nur Release-PRs
+    # (CONTRIBUTING.md Abschnitt 4). Ohne diese Angabe zielt Dependabot auf den
+    # Default-Branch — heute `develop`, am 2026-05-05 offenbar `main`: PR #4
+    # landete dort und blieb liegen.
+    target-branch: develop
     schedule:
       interval: weekly
       day: monday

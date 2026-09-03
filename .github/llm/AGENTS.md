@@ -23,8 +23,15 @@ Idee → gh issue create  →  Issue im Project (Status: Todo, "Planning | statu
 
 ## 2. Branch-Modell (GitFlow-light)
 
-- `main` — Release, immer deploybar. Default-Branch.
-- `develop` — Integration, hier wird gesammelt + getestet.
+- `main` — Release, immer deploybar.
+- `develop` — Integration, hier wird gesammelt + getestet. **Default-Branch.**
+
+> **Der Default-Branch ist `develop`, nicht `main`** — bis 2026-09-03 stand hier
+> das Gegenteil. Das ist keine Kosmetik: GitHub schließt ein per `Closes #<nr>`
+> verlinktes Issue **nur beim Merge in den Default-Branch**. PR #6 ging mit
+> `Closes #5` nach `main` — #5 blieb offen, während PR #8 nach `develop` sein
+> Issue sofort schloss. Wer glaubt, `main` sei der Default, mergt dorthin und
+> wundert sich über offene Issues.
 - `feature/<nr>-<slug>` — alles, was etwas hinzufügt oder ändert (Feature, Refactor, Chore, Docs, Test). Von `develop`, zurück nach `develop`.
 - `bugfix/<nr>-<slug>` — Fehler beheben. Von `develop` für normale Fixes, von `main` für kritische Hotfixes (danach Backmerge nach `develop`).
 
@@ -58,7 +65,7 @@ Statuswechsel:
 gh issue edit <nr> --remove-label "Planning | status" --add-label "Ready | status"
 ```
 
-Das Label-Set ist **repo-übergreifend identisch** (Farben + Namen), gepflegt via `_foundation/apply-labels.sh`.
+Das Label-Set ist **repo-übergreifend identisch** (Farben + Namen), gepflegt mit `apply-labels.sh` im Portfolio-Meta-Repo (Ort siehe dort `AGENTS.md`).
 
 Jedes Issue gehört ins Project [@SteffenGottschalk/projects/1](https://github.com/users/SteffenGottschalk/projects/1) — der `add-to-project.yml`-Workflow fügt neue Issues automatisch ein.
 **Size-Feld** (s/m/l/xl) wird vor `status:ready` in der Project-UI gesetzt.
@@ -115,7 +122,7 @@ gh issue develop <nr> --base develop --name feature/<nr>-slug --checkout
 
 ## 8. Verhalten gegenüber dem Repo
 
-- **Vor Code:** betroffene Dateien lesen, Annahmen im Issue prüfen.
+- **Vor Code:** betroffene Dateien lesen, Annahmen im Issue prüfen — und [`lessons.md`](lessons.md) (§10).
 - **Bei Unklarheit:** im Issue nachfragen (Comment), nicht raten.
 - **Nach Änderungen:** Doku im selben PR aktualisieren (README, dieses File, falls relevant).
 - **Niemals** `git push --force` auf `main` oder `develop`.
@@ -126,3 +133,35 @@ gh issue develop <nr> --base develop --name feature/<nr>-slug --checkout
 DDD-er- ist ein Konzept-Skelett für Domain-Driven-Design-Material. Aktuell kein Build-Stack
 — Issues drehen sich um Konzepte, Beispiele, Doku. Sobald Code dazukommt, wird dieses
 Dokument um Stack-Notes (Test-/Build-Befehle) erweitert.
+
+## 10. Lessons Learned
+
+[`./lessons.md`](lessons.md) enthält repo-spezifische Lehren aus konkreten
+Vorfällen. **Vor jeder neuen Aufgabe lesen** — die Einträge mit Bedeutungstiefe
+≥ 6 zuerst.
+
+**Pflicht:** Wenn du als LLM/Agent in einen Fehler läufst (Bug, Revert, falsche
+Annahme, „ach Mist"-Moment) — **nach der Behebung** einen Eintrag in `lessons.md`
+ergänzen. Ohne Eintrag gilt der Fehler als nicht gelernt.
+
+Format:
+
+```markdown
+## <Bereich>
+- YYYY-MM-DD [N/10] — <Lehre in einem Satz>.
+  <Warum / Konsequenz>
+```
+
+Bedeutungstiefe N/10: **10** = Datenverlust/Prod-Ausfall, **8–9** = schwerer
+Vorfall, **6–7** = verlässlicher Stolperstein, **4–5** = nützlich, **2–3** =
+nice-to-know, **1** = Anekdote.
+
+**Ein Eintrag braucht einen Vorfall.** „Man sollte X beachten" ist keine Lehre,
+sondern eine Meinung. In den Eintrag gehört, *was passiert ist* — mit Datum,
+PR- oder Issue-Nummer und der Messung, die es belegt. Wer den Score nicht
+begründen kann, hat den Vorfall nicht verstanden.
+
+**Cross-Repo-Lehren** gehören nicht hierher, sondern in die Lessons-Ablage des
+Portfolio-Meta-Repos (dort unter dem Namen `lessons-learned`; der Ort steht in
+dessen `AGENTS.md`). **Beim Namen nennen, nicht als Pfad schreiben** — die
+Vorlage zu diesem Abschnitt verwies auf ein Repo, das es nicht mehr gibt.
