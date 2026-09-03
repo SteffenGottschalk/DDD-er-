@@ -41,7 +41,7 @@ Direkt nach dem Anlegen pflegen:
 
 ## 2. Labels
 
-Format: `<Name> | <Kategorie>`. Repo-übergreifend identisch, gepflegt via `_foundation/apply-labels.sh`.
+Format: `<Name> | <Kategorie>`. Repo-übergreifend identisch, gepflegt mit `apply-labels.sh` im Portfolio-Meta-Repo (Ort siehe dort `AGENTS.md`).
 
 | Kategorie  | Werte                                                                                                                          |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------ |
