@@ -73,7 +73,7 @@ Status-Mapping:
 | Trigger                              | Issue-Label              | Project-Status                            |
 | ------------------------------------ | ------------------------ | ----------------------------------------- |
 | Issue angelegt                       | `Planning | status`      | `Todo`                                    |
-| Plan steht, Size gesetzt             | `Ready | status`         | `Ready for Develompent`                   |
+| Plan steht, Size gesetzt             | `Ready | status`         | `Ready for Development`                   |
 | Branch via `gh issue develop`        | `In Progress | status`   | `In Progress`                             |
 | PR geöffnet                          | `Review | status`        | `In Progress` (+ verlinkter PR)           |
 | Blockiert                            | `Blocked | status`       | `Blocked`                                 |
