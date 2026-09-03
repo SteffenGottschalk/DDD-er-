@@ -15,8 +15,27 @@ jobs:
       - name: Validate branch name
         env:
           BRANCH: ${{ github.head_ref }}
+          ACTOR: ${{ github.event.pull_request.user.login }}
         run: |
           echo "Head branch: $BRANCH"
+
+          # Mainline-PRs sind keine Themenzweige und koennen das Schema nie
+          # erfuellen: Ein Release-PR develop -> main hat den Head-Ref `develop`,
+          # ein Hotfix-Backmerge main -> develop (CONTRIBUTING.md Abschnitt 4)
+          # hat `main`. Solange dieses Gate sie ablehnte, war der bequemere Weg
+          # der direkte Push auf eine Mainline -- genau das ist passiert, und
+          # `main` und `develop` sind dabei auseinandergelaufen.
+          if [[ "$BRANCH" == "main" || "$BRANCH" == "develop" ]]; then
+            echo "Mainline-PR ($BRANCH) -- das Namensschema gilt nur fuer Themenzweige."
+            exit 0
+          fi
+
+          # Dependabot benennt seine Zweige selbst und kann daran nichts aendern.
+          if [[ "$ACTOR" == "dependabot[bot]" ]]; then
+            echo "Dependabot-PR -- Zweigname vom Bot vorgegeben."
+            exit 0
+          fi
+
           if ! [[ "$BRANCH" =~ ^(feature|bugfix)/[0-9]+-[a-z0-9-]+$ ]]; then
             echo "::error::Branch name '$BRANCH' verletzt das Schema."
             echo "Erwartet: feature|bugfix/<issue-nr>-<kebab-slug>"

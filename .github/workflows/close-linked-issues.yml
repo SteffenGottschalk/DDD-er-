@@ -15,12 +15,29 @@ jobs:
       - name: Verify PR body links an issue
         env:
           BODY: ${{ github.event.pull_request.body }}
+          BRANCH: ${{ github.head_ref }}
+          ACTOR: ${{ github.event.pull_request.user.login }}
         run: |
           echo "PR body length: ${#BODY}"
+
+          # Ein Release-PR develop -> main buendelt fertige Arbeit, deren Issues
+          # beim Merge nach `develop` schon geschlossen wurden. Er hat kein
+          # eigenes Issue -- und ohne diese Ausnahme kein gruenes Gate.
+          if [[ "$BRANCH" == "main" || "$BRANCH" == "develop" ]]; then
+            echo "Mainline-PR ($BRANCH) -- Issue-Link nicht verlangt."
+            exit 0
+          fi
+
+          # Dependabot legt kein Issue an, kann also keines verlinken.
+          if [[ "$ACTOR" == "dependabot[bot]" ]]; then
+            echo "Dependabot-PR -- Issue-Link nicht verlangt."
+            exit 0
+          fi
+
           if [[ "$BODY" =~ (Closes|Fixes|Resolves)[[:space:]]*\#[0-9]+ ]]; then
             echo "Linked issue reference found."
             exit 0
           fi
-          echo "::error::PR-Body enthält keinen 'Closes #<nr>' / 'Fixes #<nr>' / 'Resolves #<nr>'-Link."
-          echo "Pflicht laut .github/llm/AGENTS.md §6 — bitte Issue verlinken."
+          echo "::error::PR-Body enthaelt keinen 'Closes #<nr>' / 'Fixes #<nr>' / 'Resolves #<nr>'-Link."
+          echo "Pflicht laut .github/llm/AGENTS.md Abschnitt 6 -- bitte Issue verlinken."
           exit 1

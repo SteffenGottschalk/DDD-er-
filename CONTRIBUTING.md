@@ -98,6 +98,20 @@ Andere Präfixe (`chore/`, `hotfix/`, …) sind **nicht erlaubt**.
 
 `<slug>`: kebab-case, ≤ 40 Zeichen.
 
+**Das Schema gilt für Themenzweige — nicht für Mainline-PRs.** Ein Release-PR
+`develop` → `main` hat den Head-Ref `develop`, ein Hotfix-Backmerge
+`main` → `develop` hat `main`; beide können das Schema nie erfüllen. Ebenso
+benennt Dependabot seine Zweige selbst und kann daran nichts ändern. Alle drei
+sind in `branch-name-check.yml` ausdrücklich ausgenommen, Dependabot zusätzlich
+in `close-linked-issues.yml` (ein Bot legt kein Issue an, das er verlinken
+könnte).
+
+Bis 2026-09-03 fehlten diese Ausnahmen — mit Folgen, die in der Historie stehen:
+Der vorgeschriebene Weg war rot, der direkte Push auf eine Mainline nicht.
+PR #2 und #8 wurden mit rotem Namens-Check gemergt, der in diesem Abschnitt
+verlangte Backmerge nach PR #6 fand nie statt, und `main` und `develop` liefen
+auseinander. Siehe [#9](https://github.com/SteffenGottschalk/DDD-er-/issues/9).
+
 ## 5. Implementieren
 
 - Bleib im Scope des Issues. Findest du beim Umsetzen etwas anderes — **neues Issue**, kein "while-I'm-here"-Refactor.
